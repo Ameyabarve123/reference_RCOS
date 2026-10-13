@@ -1,69 +1,78 @@
-import Image from "next/image";
+import Link from "next/link";
+
+const ingest = [
+  ["Upload", "PDF, image, or text"],
+  ["Router", "Which kind of file is this?"],
+  ["Chunk", "Semantic, fixed, or sentence"],
+  ["LaTeX", "Image regions become equations"],
+  ["Embed", "Gemini text-embedding-004"],
+  ["Store", "pgvector in Supabase"],
+];
+
+const query = [
+  ["Ask", "A message in a chat"],
+  ["Route", "Library, web, or pretrained"],
+  ["Embed", "Same model as ingestion"],
+  ["Search", "Top chunks, then a rerank"],
+  ["Write", "Gemini, with the passages"],
+  ["Cite", "The chunks the answer used"],
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-6 py-10 sm:px-10">
+      <header className="flex items-center justify-between gap-4">
+        <p className="font-serif text-2xl text-ink">RCOS Reference</p>
+        <div className="flex gap-2">
+          <Link
+            href="/login"
+            className="rounded-full px-4 py-2 text-sm text-ink hover:bg-white"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Sign in
+          </Link>
+          <Link
+            href="/signup"
+            className="rounded-full bg-accent px-4 py-2 text-sm text-white hover:bg-[#841f1f]"
           >
-            Documentation
-          </a>
+            Create account
+          </Link>
         </div>
-      </main>
-    </div>
+      </header>
+
+      <section className="mt-16 max-w-3xl">
+        <p className="text-sm tracking-[0.16em] text-muted uppercase">Research library</p>
+        <h1 className="mt-3 font-serif text-5xl leading-[1.05] text-ink sm:text-6xl">
+          Retrieval that shows its work.
+        </h1>
+        <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">
+          Keep notes and files in folders, then ask questions against that
+          corpus. Every answer names the chunks it used.
+        </p>
+      </section>
+
+      <section className="mt-14 grid gap-6 lg:grid-cols-2">
+        <Flow title="Ingestion" steps={ingest} />
+        <Flow title="Query" steps={query} />
+      </section>
+    </main>
+  );
+}
+
+function Flow({ title, steps }: { title: string; steps: string[][] }) {
+  return (
+    <article className="rounded-3xl border border-line bg-paper-2 p-6">
+      <h2 className="font-serif text-3xl text-ink">{title}</h2>
+      <ol className="mt-5 grid gap-3">
+        {steps.map(([name, detail], index) => (
+          <li key={name} className="grid grid-cols-[2rem_1fr] gap-3">
+            <span className="font-mono text-sm text-accent">{index + 1}</span>
+            <span>
+              <span className="block text-sm font-medium text-ink">{name}</span>
+              <span className="block text-sm text-muted">{detail}</span>
+            </span>
+          </li>
+        ))}
+      </ol>
+    </article>
   );
 }

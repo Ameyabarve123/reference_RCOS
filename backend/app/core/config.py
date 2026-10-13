@@ -16,9 +16,15 @@ class Settings(BaseSettings):
     cors_origins_raw: str = "http://localhost:3000"
 
     supabase_url: str = ""
+    # Secret / service-role key. The anon key cannot write past row level security.
     supabase_key: str = ""
 
     google_api_key: str = ""
+    gemini_chat_model: str = "gemini-2.5-flash"
+    # Architecture: text-embedding-004 (768 dimensions). Must match schema.sql.
+    gemini_embed_model: str = "models/text-embedding-004"
+    embedding_dimensions: int = 768
+    storage_bucket: str = "documents"
 
     @property
     def cors_origins(self) -> list[str]:

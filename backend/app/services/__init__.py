@@ -1,1 +1,1 @@
-# RAG / LangChain services will live here.
+# RAG services: ingestion, retrieval, and generation.
